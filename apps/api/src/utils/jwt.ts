@@ -20,9 +20,9 @@ export const generateAccessToken = (user: IUser): string => {
     role: user.role,
   };
 
-  return jwt.sign(payload, config.jwtSecret as jwt.Secret, {
-    expiresIn: config.jwtExpiry as string,
-  });
+  return jwt.sign(payload, config.jwtSecret, {
+    expiresIn: config.jwtExpiry,
+  } as jwt.SignOptions);
 };
 
 export const generateRefreshToken = (user: IUser): string => {
@@ -31,9 +31,9 @@ export const generateRefreshToken = (user: IUser): string => {
     type: 'refresh',
   };
 
-  return jwt.sign(payload, config.jwtRefreshSecret as jwt.Secret, {
-    expiresIn: config.jwtRefreshExpiry as string,
-  });
+  return jwt.sign(payload, config.jwtRefreshSecret, {
+    expiresIn: config.jwtRefreshExpiry,
+  } as jwt.SignOptions);
 };
 
 export const generateTokenPair = (user: IUser): TokenPair => {
@@ -54,11 +54,11 @@ export const verifyRefreshToken = (token: string): { userId: string; type: strin
 export const generateVerificationToken = (): string => {
   return jwt.sign({ type: 'verification' }, config.jwtSecret, {
     expiresIn: '24h',
-  });
+  } as jwt.SignOptions);
 };
 
 export const generateResetToken = (): string => {
   return jwt.sign({ type: 'reset' }, config.jwtSecret, {
     expiresIn: '1h',
-  });
+  } as jwt.SignOptions);
 };

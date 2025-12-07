@@ -7,7 +7,11 @@ async function grantPremiumAccess(email: string) {
     await mongoose.connect(process.env.MONGODB_URI!);
     console.log('Connected to MongoDB');
 
-    const result = await mongoose.connection.db.collection('users').findOneAndUpdate(
+    const db = mongoose.connection.db;
+    if (!db) {
+      throw new Error('Database connection not established');
+    }
+    const result = await db.collection('users').findOneAndUpdate(
       { email },
       {
         $set: {
